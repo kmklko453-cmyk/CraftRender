@@ -17,7 +17,7 @@ int main()
     std::wstring className= L"Craft Engine Window ";
     std::wstring title = L"Craft Engine";
 
-    //창 크기
+    //클라이언트 영역 크기
     uint32_t width = 1280;
     uint32_t height = 800;
 
@@ -34,14 +34,31 @@ int main()
         return 0;
     }
 
+    //창 크기 구하기
+    RECT rect = {};
+    rect.left = 0;
+    rect.top = 0;
+    rect.right= width;
+    rect.bottom = height;
+    AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, FALSE);
+
+    //창 크기
+    uint32_t windowWidth = rect.right - rect.left;
+    uint32_t windowHeight = rect.bottom- rect.top;
+
+    //창 생성 위치 가운데로
+    uint32_t positionX = (GetSystemMetrics(SM_CXSCREEN) - windowWidth) / 2;
+    uint32_t positionY = (GetSystemMetrics(SM_CYSCREEN) - windowHeight) / 2;
+
     //창 객체 생성
     HWND hwnd = CreateWindow(
         className.c_str(),                     // Window class
-        title.c_str(),   // Window text
-        WS_OVERLAPPEDWINDOW,            // Window style
-
-        // Size and position
-        CW_USEDEFAULT, CW_USEDEFAULT, width, height,
+        title.c_str(),                         // Window text
+        WS_OVERLAPPEDWINDOW,                   // Window style
+        
+        //위치 및 크기
+        positionX, positionY, // 실행 위치 
+        windowWidth, windowHeight, // 창 크기
 
         nullptr,       // Parent window    
         nullptr,       // Menu

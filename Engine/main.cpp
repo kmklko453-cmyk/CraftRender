@@ -1,4 +1,5 @@
 #include "Core/Win32Window.h"
+#include "Graphics/GraphicsContext.h"
 
 //콜백 함수
 //창 메시지 처리할 때 사용 
@@ -23,6 +24,10 @@ int main()
 
     // 창 생성
     Craft::Win32Window window(width, height, hInstance, WindowProc);
+
+    //장치 생성 테스트
+    Craft::GraphicsContext context;
+    context.Initialize(width, height, window);
 
     //초기화 (초기화 실패 시 프로그램 종료)
     if (!window.Initialize())

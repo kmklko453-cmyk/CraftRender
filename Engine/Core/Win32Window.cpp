@@ -2,14 +2,14 @@
 
 namespace Craft
 {
-	Win32Window::Win32Window(uint32_t width, uint32_t height, HINSTANCE hInstance, WNDPROC messageProcedure)
-		:width(width), height(height), hInstance(hInstance), messageProcedure(messageProcedure)
+	Win32Window::Win32Window(uint32_t width, uint32_t height, HINSTANCE instance, WNDPROC messageProcedure)
+		:width(width), height(height), instance(instance), messageProcedure(messageProcedure)
 	{
 	}
 	Win32Window::~Win32Window()
 	{
 		// 창 등록  해제
-		UnregisterClass(className.c_str(), instance)
+        UnregisterClass(className.c_str(), instance);
 	}
 	bool Win32Window::Initialize()
 	{

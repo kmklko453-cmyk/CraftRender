@@ -33,7 +33,7 @@ namespace Craft
 		// 프로그램 포인터(인스턴스)
 		HINSTANCE instance = nullptr;
 		// 메시지 처리 함수 포인터
-		WNDPROC messageProcedure = nullptr
+		WNDPROC messageProcedure = nullptr;
 
 	};
 

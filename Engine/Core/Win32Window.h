@@ -10,7 +10,7 @@ namespace Craft
 	class Win32Window
 	{
 	public:
-		Win32Window(uint32_t width = 1280, uint32_t height = 800, HINSTANCE hInstance = nullptr, WNDPROC messageProcedure = nullptr);
+		Win32Window(uint32_t width = 1280, uint32_t height = 800,const std::wstring& title = L"", HINSTANCE instance = nullptr, WNDPROC messageProcedure = nullptr);
 		~Win32Window();
 
 		bool Initialize();

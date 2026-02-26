@@ -23,11 +23,11 @@ int main()
     HINSTANCE hInstance = GetModuleHandle(nullptr);
 
     // 창 생성
-    Craft::Win32Window window(width, height, hInstance, WindowProc);
+    Craft::Win32Window window(width, height, title, hInstance, WindowProc);
 
     //장치 생성 테스트
     Craft::GraphicsContext context;
-    context.Initialize(width, height, window);
+    context.Initialize(window);
 
     //초기화 (초기화 실패 시 프로그램 종료)
     if (!window.Initialize())

@@ -1,5 +1,7 @@
 #include "GraphicsContext.h"
-#include "../Core/Win32Window.h"
+#include "Core/Win32Window.h"
+#include "Core/Common.h"
+
 
 namespace Craft
 {
@@ -8,29 +10,36 @@ namespace Craft
 	}
 	GraphicsContext::~GraphicsContext()
 	{
+		SafeRelease(device);
+		SafeRelease(context);
+		SafeRelease(swapChain);
+
 		//자원 해제
-		if (device)
-		{
-			//Release 함수를 통해서 자원 해제 delete 직접하면 안됨 생성도 마찬가지
-			device->Release();
-			device = nullptr;
-		}
-		if (context)
-		{
-			context->Release();
-			context = nullptr;
-		}
-		if (swapChain)
-		{
-			swapChain->Release();
-			swapChain = nullptr;
-		}
+		
 
 	}
-	void GraphicsContext::Initialize(uint32_t width, uint32_t height, const Win32Window& window)
+	void GraphicsContext::Initialize(const Win32Window& window)
+	{
+		//멤버 변수 설정
+		width = window.Width();
+		height = window.Height();
+
+		//장치 생성
+		CreateDevice();
+
+		//SwapChain 생성
+		CreateSwapChain(window);
+
+		//뷰포트 생성
+		CreateViewport(window);
+
+		
+	}
+	void GraphicsContext::CreateDevice()
 	{
 		//플래스 지정
 		uint32_t flag = 0;
+
 
 #if _DEBUG
 		flag |= D3D11_CREATE_DEVICE_DEBUG;
@@ -78,10 +87,15 @@ namespace Craft
 			return;
 		}
 
+		
+	}
+	void GraphicsContext::CreateSwapChain(const Win32Window& window)
+	{
+
 		//SawpChain 생성
 		//스왑체인 생성해주는 객체 얻어오기
 		IDXGIFactory* factory = nullptr;
-		result = CreateDXGIFactory(__uuidof(IDXGIFactory), reinterpret_cast<void**>(&factory));
+		HRESULT result = CreateDXGIFactory(__uuidof(IDXGIFactory), reinterpret_cast<void**>(&factory));
 
 		//예외 처리
 		if (FAILED(result))
@@ -89,29 +103,28 @@ namespace Craft
 			__debugbreak;
 			return;
 		}
+		// 스왑 체인 생성을 위한 자료 설정
+			/*
+			*	DXGI_MODE_DESC BufferDesc;
+	`			DXGI_SAMPLE_DESC SampleDesc;
+	`			DXGI_USAGE BufferUsage;
+	`			UINT BufferCount;
+	`			HWND OutputWindow;
+	`			BOOL Windowed;
+	`			DXGI_SWAP_EFFECT SwapEffect;
+				UINT Flags;
 
-		//스왑 체인 생성을 위한 자료 설정
-		/*
-		*	DXGI_MODE_DESC BufferDesc;
-`			DXGI_SAMPLE_DESC SampleDesc;
-`			DXGI_USAGE BufferUsage;
-`			UINT BufferCount;
-`			HWND OutputWindow;
-`			BOOL Windowed;
-`			DXGI_SWAP_EFFECT SwapEffect;
-			UINT Flags;
-
-		*/
-		DXGI_SWAP_CHAIN_DESC swapChainDesc = {};
+			*/
+			DXGI_SWAP_CHAIN_DESC swapChainDesc = {};
 		swapChainDesc.Windowed = true;	//창 모드로 시작
 		swapChainDesc.OutputWindow = window.Handle();
-		
+
 		//화면 출력용
 		swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-		
+
 		//사용할 버퍼 수
 		swapChainDesc.BufferCount = 2;
-		
+
 		//안티-안리아싱(Anti-Aliasing)에 수퍼 샘플링 수준 설정
 		swapChainDesc.SampleDesc.Count = 1;
 		swapChainDesc.SampleDesc.Quality = 0;
@@ -119,7 +132,7 @@ namespace Craft
 		//버퍼(프레이-이미지) 설정
 		swapChainDesc.BufferDesc.Width = window.Width();
 		swapChainDesc.BufferDesc.Height = window.Height();
-		
+
 		//이미지 픽셀 포멧(32비트-부호없고-정규화된 포멧)
 		swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 
@@ -137,18 +150,17 @@ namespace Craft
 		}
 
 		//팩토리 객체 해제
-		if (factory)
-		{
-			factory->Release();
-			factory = nullptr;
-		}
-
-		//뷰포트 생성
+		SafeRelease(factory);
+		
+	}
+	void GraphicsContext::CreateViewport(const Win32Window& window)
+	{
 		viewport.TopLeftX = 0.0f;
 		viewport.TopLeftY = 0.0f;
 		viewport.Width = static_cast<float>(window.Width());
 		viewport.Height = static_cast<float>(window.Height());
 		viewport.MinDepth = 0.0f;
 		viewport.MaxDepth = 1.0f;
+
 	}
 }

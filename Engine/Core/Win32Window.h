@@ -6,35 +6,40 @@
 
 namespace Craft
 {
-	//WIN32 API로 생성하는 창 클래스
+	// WIN32 API로 생성하는 창 클래스.
 	class Win32Window
 	{
 	public:
-		Win32Window(uint32_t width = 1280, uint32_t height = 800,const std::wstring& title = L"", HINSTANCE instance = nullptr, WNDPROC messageProcedure = nullptr);
+		Win32Window(
+			uint32_t width = 1280,
+			uint32_t height = 800,
+			const std::wstring& title = L"",
+			HINSTANCE instance = nullptr,
+			WNDPROC messageProcedure = nullptr
+		);
 		~Win32Window();
 
+		// 초기화 함수.
 		bool Initialize();
 
-		//Getter
-		inline uint32_t Width()const { return width; }
-		inline uint32_t Height()const { return height; }
-		inline HWND Handle()const { return handle; }
+		// Getter.
+		inline uint32_t Width() const { return width; }
+		inline uint32_t Height() const { return height; }
+		inline HWND Handle() const { return handle; }
 
 	private:
-		//타이틀
+		// 타이틀.
 		std::wstring title;
-		//창 등록할 떄 사용할 클래스 이름
-		std::wstring className = L"Cratf Engine class";
-		//zmrl 
+		// 창 등록할 때 사용할 클래스 이름.
+		std::wstring className = L"Craft Engine Class";
+		// 크기.
 		uint32_t width = 0;
 		uint32_t height = 0;
-		//창 객체 (핸들)
+		// 창 객체 (핸들).
 		HWND handle = nullptr;
-		// 프로그램 포인터(인스턴스)
+		// 프로그램 포인터(인스턴스).
 		HINSTANCE instance = nullptr;
-		// 메시지 처리 함수 포인터
+		// 메시지 처리 함수 포인터.
 		WNDPROC messageProcedure = nullptr;
-
 	};
-
 }

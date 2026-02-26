@@ -13,7 +13,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{335d61bf-98d8-4bc9-b2cd-1d771462a647}</ProjectGuid>
+    <ProjectGuid>{ed1d02c7-05be-4473-b878-a6003b0b2f4a}</ProjectGuid>
     <RootNamespace>Engine</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -82,12 +82,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Core\Engine.cpp" />
     <ClCompile Include="Core\Win32Window.cpp" />
     <ClCompile Include="Graphics\GraphicsContext.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Common.h" />
+    <ClInclude Include="Core\Engine.h" />
     <ClInclude Include="Core\Win32Window.h" />
     <ClInclude Include="Graphics\GraphicsContext.h" />
   </ItemGroup>

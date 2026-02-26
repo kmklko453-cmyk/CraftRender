@@ -1,54 +1,54 @@
 #pragma once
 
-#include <d3d11.h>	 //Direct3D 11 일반적인 내용
-#include <dxgi.h>	 //DXGI 장치 관련 (스왑 체인)
+#include <d3d11.h>		// Direct3D 11 일반적인 내용.
+#include <dxgi.h>		// DXGI 장치 관련(스왑체인).
 #include <string>
 
-//장치(그래픽 카드)
-//Direct3D에서 "장치"로 다루는 객체는 3개
-//Device: 리소스 생성
-//DeviceContext: 생성된 리소스를 그래픽카드에 할당 (바인딩)/드로우콜
-//SwapChain(스왑체인): 백버퍼-프론트버퍼 교환
+// 장치(그래픽카드).
+// Direct3D에서 "장치"로 다루는 객체는 3개.
+// Device: 리소스 생성.
+// DeviceContext: 생성된 리소스를 그래픽카드에 할당(바인딩)/드로우콜.
+// SwapChain(스왑체인): 백버퍼-프론트버퍼 교환.
+// RenderTargetView(렌더 타겟 뷰): 화면에 그릴 프레임(이미지) 리소스.
+// View(뷰): 특별한 리소스 CPU<->GPU간의 소통을 위해 사용.
+// -> CPU에서 리소스를 생성하면 이걸 본따서 GPU에서 복제본을 만들고 사용함.
+// 포워드 렌더러(Forward Renderer) -> 우리는 이걸.
+// 디퍼드 렌더러(Deffered Renderer).
 
 namespace Craft
 {
-	//전방선언
+	// 전방선언.
 	class Win32Window;
 
-	//그래픽스 관련 기능을 제공 및 리소스 관리
+	// 그래픽스 관련 기능을 제공 및 리소스 관리.
 	class GraphicsContext
 	{
 	public:
 		GraphicsContext();
 		~GraphicsContext();
 
-		//초기화
+		// 초기화.
 		void Initialize(const Win32Window& window);
 
 	private:
-		//장치 생성
+		// 장치 생성.
 		void CreateDevice();
 		void CreateSwapChain(const Win32Window& window);
 		void CreateViewport(const Win32Window& window);
 
-
 	private:
-		//장치류
-		//Direct3D 리소스는 포인터로만 다룰 수 있음
-		//생성/해제를 API에 요청
+		// 장치류.
+		// Direct3D 리소스는 포인터로만 다룰 수 있음.
+		// 생성/해제를 API에 요청.
 		ID3D11Device* device = nullptr;
 		ID3D11DeviceContext* context = nullptr;
 		IDXGISwapChain* swapChain = nullptr;
 
-		//뷰포트
+		// 뷰포트.
 		D3D11_VIEWPORT viewport = { };
 
+		// 화면 크기.
 		uint32_t width = 0;
 		uint32_t height = 0;
-
-
 	};
-
 }
-
-

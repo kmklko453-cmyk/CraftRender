@@ -17,6 +17,7 @@ namespace Craft
 		uint32_t height = 800;
 		std::wstring title = L"Craft Engine";
 		float framerate = 120.0f;
+		uint32_t vsync = 0;
 	};
 
 	class Engine

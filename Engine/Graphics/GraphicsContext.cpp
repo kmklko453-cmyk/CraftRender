@@ -1,11 +1,17 @@
 #include "GraphicsContext.h"
 #include "Core/Win32Window.h"
 #include "Core/Common.h"
+#include <cassert>
 
 namespace Craft
 {
+	// 전역 변수 초기화.
+	GraphicsContext* GraphicsContext::instance = nullptr;
+
 	GraphicsContext::GraphicsContext()
 	{
+		assert(!instance);
+		instance = this;
 	}
 
 	GraphicsContext::~GraphicsContext()
@@ -57,6 +63,12 @@ namespace Craft
 	{
 		// 모니터에 전달 (백버퍼-프론트버퍼 교환).
 		swapChain->Present(0, 0);
+	}
+
+	GraphicsContext& GraphicsContext::Get()
+	{
+		assert(instance);
+		return *instance;
 	}
 
 	void GraphicsContext::CreateDevice()

@@ -64,7 +64,7 @@ namespace Craft
 			// 창 메시지가 없으면 엔진 로직 처리.
 			else
 			{
-				//프레임 처리
+				// 프레임 처리.
 				graphicsContext->BeginScene(0.6f, 0.7f, 0.8f);
 				graphicsContext->EndScene(setting.vsync);
 			}
